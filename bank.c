@@ -198,9 +198,7 @@
                                     }
                                         return;
                 }
-
-
-                  void DATA_SAVE_transactions(struct Account *account,char* filename_1,char* temp,struct Account *target_account)
+                  void DATA_SAVE(struct Account *account,char* filename_1,char* temp)
                     {
                          struct Account data;
 
@@ -219,10 +217,6 @@
                                             data.balance=account->balance;
 
                                         }
-                                else if(data.IBAN==target_account->IBAN)
-                                {
-                                    data.balance=target_account->balance;
-                                }
                             fwrite(&data,sizeof(struct Account),1,fp);
                             }
 
@@ -240,8 +234,7 @@
         return;
     }
              }
-
-    void transaction(int IBAN_receiver, char *filename_1, struct Account *account, char *filename_2) {
+void transaction(int IBAN_receiver, char *filename_1, struct Account *account, char *filename_2) {
     float balance;
     int search = 0;
     char *temp="temp.bin";
@@ -291,7 +284,8 @@
     } else {
         printf("Your target IBAN isn't found.\n");
     }
-    DATA_SAVE_transactions(account,filename_1,temp,account_receiver);
+    DATA_SAVE(account,filename_1,temp);
+    DATA_SAVE(account_receiver,filename_1,temp);
 
     free(account_receiver);
 }
@@ -331,42 +325,7 @@
                     }
                     else printf("\nWrong choice. Please try again");
             }
-                    void DATA_SAVE(struct Account *account,char* filename_1,char* temp)
-                    {
-                         struct Account data;
-
-
-                        FILE *file=fopen(filename_1,"rb");
-                        FILE *fp=fopen(temp,"ab");
-                                if(file==NULL||fp==NULL){
-                                    perror("Error opening file");
-                                }
-
-
-                                        while(fread(&data,sizeof(struct Account),1,file)==1)
-                            {
-                                if(data.IBAN==account->IBAN)
-                                        {
-                                            data.balance=account->balance;
-
-                                        }
-                            fwrite(&data,sizeof(struct Account),1,fp);
-                            }
-
-                            fclose(file);
-                            fclose(fp);
-
-
-              if (remove(filename_1) != 0) {
-        perror("Error deleting file");
-        return;
-    }
-
-    if (rename(temp, filename_1) != 0) {
-        perror("Error renaming file");
-        return;
-    }
-             }
+  
                 void delete_acc(char* filename_1,char* temp_2,struct Account *account)
                 {
                     struct Account data;
