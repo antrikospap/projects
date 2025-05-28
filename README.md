@@ -1,1 +1,1 @@
-FILE HANDLING AND BANK SYSTEM IN C
+File handling and Banking system in C. A pseudocode for an ATM system which supports transactions, saving those transactions on txt,deposit and withdrawal. It also supports basic authentication and the files are in .bin system. 
